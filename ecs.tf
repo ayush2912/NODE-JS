@@ -14,16 +14,6 @@ data "aws_vpc" "existing_vpc" {
   id = "vpc-011f1b733d94aa911" # Change to your existing VPC ID
 }
 
-data "aws_subnet_ids" "existing_subnets" {
-  vpc_id = data.aws_vpc.existing_vpc.id
-
-  # Change these IDs to your existing subnet IDs
-  ids = [
-    "subnet-0c44f87e69bedf89e",
-    "subnet-09a8e0d6667281cd8",
-    "subnet-004bbaa97d6950904"
-  ]
-}
 
 data "aws_ecr_repository" "my_repository" {
   name = "my-repository"
@@ -41,7 +31,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
 [
   {
     "name": "my-container",
-    "image": "${data.aws_ecr_repository.my_repository.repository_url}:${data.aws_ecr_repository.my_repository.image_tag}",
+    "image": "${data.aws_ecr_repository.my_repository.repository_url},
     "portMappings": [
       {
         "containerPort": 3000,
