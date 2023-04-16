@@ -40,7 +40,7 @@ jobs:
 
     
       - name: Deploy MongoDB Atlas function
-        uses: mongodb-js/Atlas-Deploy-Function@v2
+        uses: mongodb-js/setup-atlas@v1
         with:
           public_key: vikvqvrh
           private_key: fee8edd1-014f-47e0-a9da-ca17967d4014
