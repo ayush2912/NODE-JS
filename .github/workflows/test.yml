@@ -55,7 +55,7 @@ jobs:
           npm install -g mongodb-stitch-cli
       - name: Authenticate to MongoDB Atlas
         run: |
-          echo "xd7zqSCX7Pk6BThPrPMk1OfdgOxh2agrhKesZynTNB8ug20Lt3qE74sBhQ3Tobn8" | stitch-cli login --api-key 
+          echo ${MONGODB_ATLAS_API_KEY} | stitch-cli login --api-key ${MONGODB_ATLAS_API_KEY}
       - name: Update function code
         run: |
           stitch-cli \
