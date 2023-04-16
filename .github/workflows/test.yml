@@ -39,8 +39,8 @@ jobs:
         run: terraform plan
 
     
-      - name: Deploy MongoDB Atlas function
-        uses: mongodb-js/deploy-to-atlas@v1
+      - name: Install MongoDB Atlas plugin
+
         with:
           public_key: vikvqvrh
           private_key: fee8edd1-014f-47e0-a9da-ca17967d4014
