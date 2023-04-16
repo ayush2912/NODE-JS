@@ -3,14 +3,7 @@ on:
   push:
     branches:
       - main
-env:
-  MONGODB_ATLAS_USERNAME: "ayush vashistha"
-  MONGODB_ATLAS_API_KEY: "xd7zqSCX7Pk6BThPrPMk1OfdgOxh2agrhKesZynTNB8ug20Lt3qE74sBhQ3Tobn8"
-  MONGODB_ATLAS_PROJECT_ID: "643baf7961e6283573a0360d"
-  MONGODB_ATLAS_CLUSTER_NAME: "ayush-test"
-#  MONGODB_ATLAS_DATABASE_NAME: <your database name>
-  MONGODB_ATLAS_FUNCTION_NAME: "ayush_function"
-  FILE_PATH: NODE-JS/App.js /
+
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -45,28 +38,20 @@ jobs:
       - name: Terraform Plan
         run: terraform plan
 
+    
+      - name: Deploy MongoDB Atlas function
+        uses: mongodb-js/Atlas-Deploy-Function@v2
+        with:
+          public_key: vikvqvrh
+          private_key: fee8edd1-014f-47e0-a9da-ca17967d4014
+          project_id: <your-project-id>
+          cluster_name: ayush-test
+          function_name: ayush_function
+
      
 
   
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Install dependencies
-        run: |
-          npm install -g mongodb-stitch-cli
-      - name: Authenticate to MongoDB Atlas
-        run: |
-          echo ${MONGODB_ATLAS_API_KEY} | stitch-cli login --api-key ${MONGODB_ATLAS_API_KEY}
-      - name: Update function code
-        run: |
-          stitch-cli \
-            --username=${MONGODB_ATLAS_USERNAME} \
-            --projectId=${MONGODB_ATLAS_PROJECT_ID} \
-            --clusterName=${MONGODB_ATLAS_CLUSTER_NAME} \
-            functions update \
-            --name=${MONGODB_ATLAS_FUNCTION_NAME} \
-            --source="$(cat ${FILE_PATH})"
-
-
+    
 
 
 
