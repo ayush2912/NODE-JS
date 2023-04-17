@@ -31,8 +31,17 @@ jobs:
       - name: Use AtlasCLI
         shell: bash
         run: atlas --version
-      - name: Push code to MongoDB Atlas
-        run: mongosh "mongodb+srv://ayush-test.iqzfium.mongodb.net/myFirstDatabase" --apiVersion 1 --username ayushvashistha567
+      - name: Install MongoDB Stitch CLI
+        run: |
+         curl https://s3.amazonaws.com/stitch-sdks/cli/v4/stitch-cli-v4.6.0-linux-x64.tar.gz -o stitch-cli.tar.gz
+         tar -zxvf stitch-cli.tar.gz
+         sudo mv stitch-cli-v4.6.0-linux-x64/stitch /usr/local/bi
+      - name: Update MongoDB Stitch function
+        env:
+         FUNCTION_NAME: ayush_function # Replace with the name of your function
+        run: |
+         file_contents="$(cat App.js)"
+         stitch functions update --name "${FUNCTION_NAME}" --source "${file_contents}"
 
 
   
