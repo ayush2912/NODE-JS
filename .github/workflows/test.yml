@@ -28,6 +28,8 @@ jobs:
       - name: Use AtlasCLI
         shell: bash
         run: atlas --version
+      - name: Install MongoDB Atlas Deploy Action
+        run: npx install-github-action supercharge/mongodb-atlas-deploy@v1
       - name: Deploy function
         uses: supercharge/mongodb-atlas-deploy@v1
         with:
