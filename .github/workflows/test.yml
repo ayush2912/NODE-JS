@@ -31,7 +31,7 @@ jobs:
         shell: bash
         run: atlas --version
       - name: Update function in Atlas
-        uses: mongodb-js/atlas-functions-deploy@v3
+        uses: ./.github/actions/atlas-functions-deploy
         with:
           project_id: 643baf7961e6283573a0360d
           cluster_name: ayush-test
