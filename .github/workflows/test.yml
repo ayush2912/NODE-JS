@@ -33,6 +33,8 @@ jobs:
 
       - name: Install dependencies
         run: npm install -g mongodb-stitch-cli
+      - name: working directory
+        run: pwd
 
       - name: Update function code
         run: |
