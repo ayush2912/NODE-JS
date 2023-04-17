@@ -40,7 +40,7 @@ jobs:
 
     
       - name: Install MongoDB Atlas plugin
-
+        uses: mongod/setup-mongodb@v1
         with:
           public_key: vikvqvrh
           private_key: fee8edd1-014f-47e0-a9da-ca17967d4014
