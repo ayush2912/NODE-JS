@@ -3,6 +3,14 @@ on:
   push:
     branches:
       - main
+env:
+  MONGODB_ATLAS_USERNAME: ayush vashistha
+  
+  MONGODB_ATLAS_PROJECT_ID: 643baf793ce9aa61105a26c1
+  MONGODB_ATLAS_CLUSTER_NAME: ayush-test
+  
+  MONGODB_ATLAS_FUNCTION_NAME: ayush_function
+  FILE_PATH: <path to your file in the repository>
 jobs:
   use-atlas-cli:
     runs-on: ubuntu-latest
@@ -17,6 +25,24 @@ jobs:
       - name: Use AtlasCLI
         shell: bash
         run: atlas --version
+      - name: Use Node.js 
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14.x
+      - run: npm install  
+
+      - name: Install dependencies
+        run: npm install -g mongodb-stitch-cli
+
+      - name: Update function code
+        run: |
+          stitch-cli \
+            --username=${MONGODB_ATLAS_USERNAME} \
+            --projectId=${MONGODB_ATLAS_PROJECT_ID} \
+            --clusterName=${MONGODB_ATLAS_CLUSTER_NAME} \
+            functions update \
+            --name=${MONGODB_ATLAS_FUNCTION_NAME} \
+            --source="$(cat ${FILE_PATH})"
           
 
      
