@@ -25,6 +25,8 @@ jobs:
       - name: Use AtlasCLI
         shell: bash
         run: atlas --version
+      - name: Push code to MongoDB Atlas
+        run: mongosh "mongodb+srv://ayush-test.iqzfium.mongodb.net/myFirstDatabase" --apiVersion 1 --username ayushvashistha567
 
 
   
