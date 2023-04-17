@@ -42,6 +42,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16.x
+      - name: Install MongoDB client for Node.js
+        run: npm install mongodb
     
       - name: Install MongoDB Atlas plugin
         uses: andreaangiolillo/atlas-cli-github-action@main
