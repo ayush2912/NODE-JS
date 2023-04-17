@@ -10,7 +10,7 @@ env:
   MONGODB_ATLAS_CLUSTER_NAME: ayush-test
   
   MONGODB_ATLAS_FUNCTION_NAME: ayush_function
-  FILE_PATH: /home/runner/work/NODE-JS/App.js
+  FILE_PATH: /App.js
 jobs:
   use-atlas-cli:
     runs-on: ubuntu-latest
