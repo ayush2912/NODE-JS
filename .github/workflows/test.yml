@@ -28,27 +28,16 @@ jobs:
       - name: Use AtlasCLI
         shell: bash
         run: atlas --version
-      - name: Install Dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y curl
-      - name: Upload File to Atlas Function
-        env:
-          ATLAS_PUBLIC_KEY: vikvqvrh
-          ATLAS_PRIVATE_KEY: fee8edd1-014f-47e0-a9da-ca17967d4014
-          ATLAS_PROJECT_ID: 643baf7961e6283573a0360d
-          ATLAS_CLUSTER_NAME: ayush-test
-        run: |
-          curl -u "${ATLAS_PUBLIC_KEY}:${ATLAS_PRIVATE_KEY}" \
-            --digest \
-            --include \
-            --request POST "https://realm.mongodb.com/groups/643baf7961e6283573a0360d/apps/643bb26a12de8b2b5ffda278/functions/643bb536d4f2c035150c5165" \
-            --header "Content-Type: application/javascript" \
-            -d "@App.js"
-
-
-
-
+      - name: Deploy function
+        uses: supercharge/mongodb-atlas-deploy@v1
+        with:
+          public_key: vikvqvrh
+          private_key: fee8edd1-014f-47e0-a9da-ca17967d4014
+          project_id: 643baf7961e6283573a0360d
+          cluster_name: ayush-test
+          database_name: myFirstDatabase
+          function_name: ayush_function
+          source_path: App.js
 
 
 
