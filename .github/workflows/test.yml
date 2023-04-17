@@ -21,6 +21,12 @@ jobs:
         with:
          public-key: vikvqvrh
          private-key: 643baf7961e6283573a0360d
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+      - name: Install MongoDB Atlas API client
+        run: npm install @mongodb-js/compass-api
          
       - name: Use AtlasCLI
         shell: bash
