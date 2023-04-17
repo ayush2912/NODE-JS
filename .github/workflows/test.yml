@@ -30,9 +30,14 @@ jobs:
       - name: Use AtlasCLI
         shell: bash
         run: atlas --version
-      - name: Update function in App Services
-        run: mcli appservices functions update --projectId 643baf7961e6283573a0360d --functionName ayush_function --file App.js
-      
+      - name: Update function in Atlas
+        uses: mongodb-js/atlas-functions-deploy@v3
+        with:
+          project_id: 643baf7961e6283573a0360d
+          cluster_name: ayush-test
+          function_name: ayush_function
+          file: App.js
+           
       
     
 
