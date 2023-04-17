@@ -10,7 +10,7 @@ env:
   MONGODB_ATLAS_CLUSTER_NAME: ayush-test
   
   MONGODB_ATLAS_FUNCTION_NAME: ayush_function
-  FILE_PATH: index.js
+  #FILE_PATH: index.js
 jobs:
   use-atlas-cli:
     runs-on: ubuntu-latest
@@ -35,7 +35,7 @@ jobs:
          PROJECT_ID: 643baf7961e6283573a0360d 
          FUNCTION_NAME: ayush_function 
         run: |
-          file_contents="$(cat index.js)"
+          file_contents="$(cat App.js)"
           mongo "mongodb+srv://ayush-test.iqzfium.mongodb.net/myFirstDatabase" --username ayushvashistha567  --authenticationDatabase admin --eval "var contents='${file_contents}'" ayush_function
 
   
