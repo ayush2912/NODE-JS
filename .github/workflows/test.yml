@@ -28,23 +28,28 @@ jobs:
       - name: Use AtlasCLI
         shell: bash
         run: atlas --version
-      - name: Install dependencies
-        run: npm install
-      - name: Build the code
-        run: npm run build
-      - name: Deploy the code
-        run: |
-          export MONGODB_ATLAS_USERNAME=ayushvashistha567
-          export MONGODB_ATLAS_PASSWORD=<your_password>
-          export MONGODB_ATLAS_CLUSTER_NAME=ayush-test
-          export MONGODB_ATLAS_FUNCTION_NAME=ayush_function
-          mongo atlas function deploy \
-            --username $MONGODB_ATLAS_USERNAME \
-            --password $MONGODB_ATLAS_PASSWORD \
-            --cluster-name $MONGODB_ATLAS_CLUSTER_NAME \
-            --function-name $MONGODB_ATLAS_FUNCTION_NAME \
-            --source build/App.js
-     
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Deploy function to MongoDB Atlas
+        uses: mongodb-js/realm-deploy@v1.0.0
+        with:
+          public-key: vikvqvrh
+          private-key: fee8edd1-014f-47e0-a9da-ca17967d4014 
+          app-id: 643bb26a12de8b2b5ffda278
+          function-name: ayush_function
+          file-path: ./App.js
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
