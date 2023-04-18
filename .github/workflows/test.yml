@@ -31,7 +31,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Deploy function to MongoDB Atlas
-        uses: mongodb-js/realm-deploy@v1.0.0
+        uses: mongodb-js/realm-deploy@Latest
         with:
           public-key: vikvqvrh
           private-key: fee8edd1-014f-47e0-a9da-ca17967d4014 
