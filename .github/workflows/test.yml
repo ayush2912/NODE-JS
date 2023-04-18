@@ -3,41 +3,21 @@ on:
   push:
     branches:
       - main
-env:
-  MONGODB_ATLAS_USERNAME: ayush vashistha
-  
-  MONGODB_ATLAS_PROJECT_ID: 643baf793ce9aa61105a26c1
-  MONGODB_ATLAS_CLUSTER_NAME: ayush-test
-  
-  MONGODB_ATLAS_FUNCTION_NAME: ayush_function
-  #FILE_PATH: index.js
+
 jobs:
-  use-atlas-cli:
+  build-and-push:
     runs-on: ubuntu-latest
-    
     steps:
-      - name: Configure Atlas CLI
-        uses: andreaangiolillo/atlas-cli-github-action@v1.1.0
-        with:
-         public-key: vikvqvrh
-         private-key: fee8edd1-014f-47e0-a9da-ca17967d4014
-      - name: Install Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14.x'
-      - name: Use AtlasCLI
-        shell: bash
-        run: atlas --version
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Deploy function to MongoDB Atlas
-        uses: mongodb-js/realm-deploy@Latest
-        with:
-          public-key: vikvqvrh
-          private-key: fee8edd1-014f-47e0-a9da-ca17967d4014 
-          app-id: 643bb26a12de8b2b5ffda278
-          function-name: ayush_function
-          file-path: ./App.js
+     - name: Setup Terraform
+       uses: hashicorp/setup-terraform@v1
+       with:
+          terraform_version: "1.0.8"
+
+     - name: Terraform Init
+       run: terraform init
+
+     - name: Terraform Plan
+       run: terraform plan
 
 
 
