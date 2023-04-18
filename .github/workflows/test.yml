@@ -28,7 +28,7 @@ jobs:
           docker push $ECR_REGISTRY/$IMAGE_NAME:$GITHUB_SHA
        
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
+        uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: "1.0.13"
 
