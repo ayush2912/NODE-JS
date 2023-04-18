@@ -1,6 +1,6 @@
 provider "mongodbatlas" {
-  access_key = vikvqvrh
-  secret_key = fee8edd1-014f-47e0-a9da-ca17967d4014
+  public_key = vikvqvrh
+  private_key = fee8edd1-014f-47e0-a9da-ca17967d4014
 }
 resource "mongodbatlas_function" "my_function" {
   name = "ayush_function"
