@@ -18,8 +18,8 @@ data "aws_subnet" "my_subnet_ids" {
    vpc_id = data.aws_vpc.existing_vpc.id
    cidr_block = "172.31.32.0/20"
 }
-resource "aws_security_group" "ecs_security_group" {
-  name = "abinas-6206"
+#resource "aws_security_group" "ecs_security_group" {
+  #name = "abinas-6206"
 #name_prefix = "abinas-6206"
  # vpc_id      = data.aws_vpc.existing_vpc.id
 
@@ -88,7 +88,7 @@ resource "aws_ecs_service" "my_service" {
   }
 
   network_configuration {
-    security_groups = [aws_security_group.ecs_security_group.id]
+    security_groups = "abinas-6206"
     subnets         = [data.aws_subnet.my_subnet_ids.id]
     assign_public_ip = true
    
