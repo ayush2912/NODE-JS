@@ -15,9 +15,8 @@ data "aws_vpc" "existing_vpc" {
 }
 # Define the existing subnets
 data "aws_subnets" "my_subnet_ids" {
-  filters = {
-    "vpc-id" = data.aws_vpc.existing_vpc.id
-  }
+  vpc_id = data.aws_vpc.existing_vpc.id
+  cidr_block = "172.31.32.0/20"
 }
 resource "aws_security_group" "ecs_security_group" {
   name_prefix = "ecs-security-group"
