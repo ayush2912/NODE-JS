@@ -14,10 +14,9 @@ data "aws_vpc" "existing_vpc" {
   id = "vpc-011f1b733d94aa911" # Change to your existing VPC ID
 }
 # Define the existing subnets
-data "aws_subnets" "my_subnet_ids" {
-   subnet_ids = [
-          "subnet-0c44f87e69bedf89e",
-          "subnet-09a8e0d6667281cd8"
+data "aws_subnet" "my_subnet_ids" {
+   vpc_id = data.aws_vpc.existing_vpc.id
+   cidr_block = "172.31.32.0/20"
 ]
 
 }
@@ -87,7 +86,7 @@ resource "aws_ecs_service" "my_service" {
 
   network_configuration {
     security_groups = [aws_security_group.ecs_security_group.id]
-    subnets         = data.aws_subnets.my_subnet_ids.ids
+    subnets         = data.aws_subnet.my_subnet_ids.ids
 
     # Map container port 3000 to host port 3000
     # Change host_port to the port you want to map to on the host
