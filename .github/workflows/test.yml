@@ -34,8 +34,6 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
-      - name: hello providers
-        run: terraform providers 
       - name: Terraform Plan
         run: terraform plan
       
