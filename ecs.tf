@@ -10,17 +10,24 @@ resource "aws_ecs_cluster" "ecs_cluster" {
 }
 
 # Define VPC and subnet IDs
-data "aws_vpc" "existing_vpc" {
-  id = "vpc-011f1b733d94aa911" # Change to your existing VPC ID
+resource "aws_default_vpc" "default_vpc" {
 }
-# Define the existing subnets
-data "aws_subnet" "my_subnet_ids" {
-   vpc_id = data.aws_vpc.existing_vpc.id
-   cidr_block = "172.31.32.0/20"
+
+# Providing a reference to our default subnets
+resource "aws_default_subnet" "default_subnet_a" {
+  availability_zone = "ap-south-1a"
+}
+
+resource "aws_default_subnet" "default_subnet_b" {
+  availability_zone = "ap-south-1b"
+}
+
+resource "aws_default_subnet" "default_subnet_c" {
+  availability_zone = "ap-south-1c"
 }
 resource "aws_security_group" "ecs_security_group" {
   name_prefix = "ecs-security-group"
-  vpc_id      = data.aws_vpc.existing_vpc.id
+  vpc_id      = aws_default_vpc.default_vpc.id
 
   ingress {
     from_port   = 0
@@ -40,10 +47,17 @@ data "aws_ecr_repository" "my_repository" {
   name = "my-repository"
 }
 # Define the ECS task definition
-resource "aws_ecs_task_definition" "my_first_task" {
+resource "aws_ecs_task_definition" "ecs_task_definition" {
   family                   = "my-ecs-task"
+  requires_compatibilities = ["FARGATE"]
+  network_mode             = "awsvpc"
+  cpu                      = "1 vCPU"
+  memory                   = "2048"
+  execution_role_arn       = "arn:aws:iam::168933414344:role/ecsTaskExecutionRole"
+  
+
   container_definitions = <<DEFINITION
- [
+[
   {
     "name": "my-container",
     "image": "${data.aws_ecr_repository.my_repository.repository_url}:latest",
@@ -63,35 +77,10 @@ resource "aws_ecs_task_definition" "my_first_task" {
       }
     }
   }
-  ]
-  DEFINITION
-  requires_compatibilities = ["FARGATE"]
-  network_mode             = "awsvpc"
-  cpu                      = "1 vCPU"
-  memory                   = "2048"
-  execution_role_arn       = "arn:aws:iam::168933414344:role/ecsTaskExecutionRole"
-  
+]
+DEFINITION
 }
-  resource "aws_iam_role" "ecsTaskExecutionRole" {
-  name               = "ecsTaskExecutionRole"
-  assume_role_policy = "${data.aws_iam_policy_document.assume_role_policy.json}"
-}
-  data "aws_iam_policy_document" "assume_role_policy" {
-  statement {
-    actions = ["sts:AssumeRole"]
-
-    principals {
-      type        = "Service"
-      identifiers = ["ecs-tasks.amazonaws.com"]
-    }
-  }
-}
-  resource "aws_iam_role_policy_attachment" "ecsTaskExecutionRole_policy" {
-  role       = "${aws_iam_role.ecsTaskExecutionRole.name}"
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
-}
- 
- resource "aws_ecs_service" "my_service" {
+resource "aws_ecs_service" "my_service" {
   name            = "my-service"
   cluster         = aws_ecs_cluster.ecs_cluster.id
   task_definition = aws_ecs_task_definition.ecs_task_definition.arn
@@ -104,9 +93,7 @@ resource "aws_ecs_task_definition" "my_first_task" {
 
   network_configuration {
     security_groups = [aws_security_group.ecs_security_group.id]
-    subnets         = [data.aws_subnet.my_subnet_ids.id]
-
+    subnets          = ["${aws_default_subnet.default_subnet_a.id}", "${aws_default_subnet.default_subnet_b.id}", "${aws_default_subnet.default_subnet_c.id}"]
+    assign_public_ip = true
    
   }
-}
-
