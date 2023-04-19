@@ -13,8 +13,36 @@ resource "aws_ecs_cluster" "ecs_cluster" {
 data "aws_vpc" "existing_vpc" {
   id = "vpc-011f1b733d94aa911" # Change to your existing VPC ID
 }
+# Define the existing subnets
+data "aws_subnet_ids" "my_subnet_ids" {
+  vpc_id = data.aws_vpc.existing_vpc.id # Specify the ID of the VPC containing the subnets
 
+  # Specify the IDs of the existing subnets
+  subnet_ids = [
+    "subnet-0c44f87e69bedf89e",
+    "subnet-09a8e0d6667281cd8",
+    "subnet-004bbaa97d6950904"
+  ]
+}
 
+resource "aws_security_group" "ecs_security_group" {
+  name_prefix = "ecs-security-group"
+  vpc_id      = data.aws_vpc.existing_vpc.id
+
+  ingress {
+    from_port   = 0
+    to_port     = 65535
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 65535
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
 data "aws_ecr_repository" "my_repository" {
   name = "my-repository"
 }
@@ -51,3 +79,26 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
 ]
 DEFINITION
 }
+resource "aws_ecs_service" "my_service" {
+  name            = "my-service"
+  cluster         = aws_ecs_cluster.ecs_cluster.id
+  task_definition = aws_ecs_task_definition.ecs_task_definition.arn
+  desired_count   = 1
+
+  deployment_controller {
+    type = "ECS"
+  }
+
+  network_configuration {
+    security_groups = [aws_security_group.ecs_security_group.id]
+    subnets         = data.aws_subnet_ids.my_subnet_ids.ids
+
+    # Map container port 3000 to host port 3000
+    # Change host_port to the port you want to map to on the host
+    port_mappings = [{
+      container_port = 3000
+      host_port      = 80
+    }]
+  }
+}
+
