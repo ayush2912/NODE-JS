@@ -17,13 +17,7 @@ data "aws_vpc" "existing_vpc" {
 data "aws_subnet_ids" "my_subnet_ids" {
   vpc_id = data.aws_vpc.existing_vpc.id # Specify the ID of the VPC containing the subnets
 
-  # Specify the IDs of the existing subnets
-  subnet_ids = [
-    "subnet-0c44f87e69bedf89e",
-    "subnet-09a8e0d6667281cd8",
-    "subnet-004bbaa97d6950904"
-  ]
-}
+  }
 
 resource "aws_security_group" "ecs_security_group" {
   name_prefix = "ecs-security-group"
