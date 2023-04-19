@@ -86,7 +86,7 @@ resource "aws_ecs_service" "my_service" {
 
   network_configuration {
     security_groups = [aws_security_group.ecs_security_group.id]
-    subnets         = data.aws_subnet.my_subnet_ids.id
+    subnets         = [data.aws_subnet.my_subnet_ids.id]
 
    
   }
