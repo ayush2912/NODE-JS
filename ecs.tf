@@ -39,26 +39,6 @@ resource "aws_security_group" "ecs_security_group" {
 data "aws_ecr_repository" "my_repository" {
   name = "my-repository"
 }
-resource "aws_iam_role" "ecsTaskExecutionRole" {
-  name               = "ecsTaskExecutionRole"
-  assume_role_policy = "${data.aws_iam_policy_document.assume_role_policy.json}"
-}
-
-data "aws_iam_policy_document" "assume_role_policy" {
-  statement {
-    actions = ["sts:AssumeRole"]
-
-    principals {
-      type        = "Service"
-      identifiers = ["ecs-tasks.amazonaws.com"]
-    }
-  }
-}
-
-resource "aws_iam_role_policy_attachment" "ecsTaskExecutionRole_policy" {
-  role       = "${aws_iam_role.ecsTaskExecutionRole.name}"
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
-}
 # Define the ECS task definition
 resource "aws_ecs_task_definition" "ecs_task_definition" {
   family                   = "my-ecs-task"
@@ -66,7 +46,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
   network_mode             = "awsvpc"
   cpu                      = "1 vCPU"
   memory                   = "2048"
-  execution_role_arn       = "${aws_iam_role.ecsTaskExecutionRole.arn}"
+  execution_role_arn       = "ecsTaskExecutionRole"
   
 
   container_definitions = <<DEFINITION
