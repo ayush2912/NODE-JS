@@ -29,7 +29,7 @@ name_prefix = "ayush-new"
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
+#some
  egress {
    from_port   = 0
    to_port     = 0
