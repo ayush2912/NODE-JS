@@ -18,25 +18,25 @@ data "aws_subnet" "my_subnet_ids" {
    vpc_id = data.aws_vpc.existing_vpc.id
    cidr_block = "172.31.32.0/20"
 }
-#resource "aws_security_group" "ecs_security_group" {
-  #name = "abinas-6206"
-#name_prefix = "abinas-6206"
- # vpc_id      = data.aws_vpc.existing_vpc.id
+resource "aws_security_group" "ecs_security_group" {
+  
+name_prefix = "ayush-new"
+ vpc_id      = data.aws_vpc.existing_vpc.id
 
-  #ingress {
-   # from_port   = 0
-   # to_port     = 65535
-   # protocol    = "tcp"
-    #cidr_blocks = ["0.0.0.0/0"]
- # }
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
- # egress {
-   # from_port   = 0
-  #  to_port     = 65535
-   # protocol    = "tcp"
-   # cidr_blocks = ["0.0.0.0/0"]
-  #}
-#}
+ egress {
+   from_port   = 0
+   to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
 data "aws_ecr_repository" "my_repository" {
   name = "my-repository"
 }
@@ -88,7 +88,7 @@ resource "aws_ecs_service" "my_service" {
   }
 
   network_configuration {
-    security_groups = "abinas-6206"
+    security_groups = [aws_security_group.ecs_security_group.id]
     subnets         = [data.aws_subnet.my_subnet_ids.id]
     assign_public_ip = true
    
