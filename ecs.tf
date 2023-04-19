@@ -19,22 +19,23 @@ data "aws_subnet" "my_subnet_ids" {
    cidr_block = "172.31.32.0/20"
 }
 resource "aws_security_group" "ecs_security_group" {
-  name_prefix = "ecs-security-group"
-  vpc_id      = data.aws_vpc.existing_vpc.id
+  name = "abinas-6206"
+#name_prefix = "abinas-6206"
+ # vpc_id      = data.aws_vpc.existing_vpc.id
 
-  ingress {
-    from_port   = 0
-    to_port     = 65535
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+  #ingress {
+   # from_port   = 0
+   # to_port     = 65535
+   # protocol    = "tcp"
+    #cidr_blocks = ["0.0.0.0/0"]
+ # }
 
-  egress {
-    from_port   = 0
-    to_port     = 65535
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+ # egress {
+   # from_port   = 0
+  #  to_port     = 65535
+   # protocol    = "tcp"
+   # cidr_blocks = ["0.0.0.0/0"]
+  #}
 }
 data "aws_ecr_repository" "my_repository" {
   name = "my-repository"
@@ -48,6 +49,10 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
   cpu                      = "2 vCPU"
   memory                   = "4096"
   execution_role_arn       = "arn:aws:iam::168933414344:role/ecsTaskExecutionRole"
+  runtime_platform {
+    operating_system_family = "Linux"
+    
+  }
   
 
   container_definitions = <<DEFINITION
