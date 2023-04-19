@@ -36,7 +36,7 @@ data "aws_subnet" "my_subnet_ids" {
    # protocol    = "tcp"
    # cidr_blocks = ["0.0.0.0/0"]
   #}
-}
+#}
 data "aws_ecr_repository" "my_repository" {
   name = "my-repository"
 }
