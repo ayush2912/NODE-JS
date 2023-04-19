@@ -17,7 +17,7 @@ data "aws_vpc" "existing_vpc" {
 data "aws_subnet" "my_subnet_ids" {
    vpc_id = data.aws_vpc.existing_vpc.id
    cidr_block = "172.31.32.0/20"
-]
+
 
 }
 resource "aws_security_group" "ecs_security_group" {
