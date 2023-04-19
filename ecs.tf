@@ -46,7 +46,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
   network_mode             = "awsvpc"
   cpu                      = "1 vCPU"
   memory                   = "2048"
-  execution_role_arn       = "ecsTaskExecutionRole"
+  execution_role_arn       = "arn:aws:iam::168933414344:role/ecsTaskExecutionRole"
   
 
   container_definitions = <<DEFINITION
