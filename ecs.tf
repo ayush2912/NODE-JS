@@ -39,6 +39,10 @@ resource "aws_security_group" "ecs_security_group" {
 data "aws_ecr_repository" "my_repository" {
   name = "my-repository"
 }
+data "aws_ecr_registry" "my_registry" {}
+data "aws_ecr_credentials" "my_ecr_credentials" {
+  registry_id = data.aws_ecr_registry.my_registry.id
+}
 # Define the ECS task definition
 resource "aws_ecs_task_definition" "ecs_task_definition" {
   family                   = "my-ecs-task"
