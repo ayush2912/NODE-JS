@@ -86,7 +86,7 @@ resource "aws_ecs_service" "my_service" {
 
   network_configuration {
     security_groups = [aws_security_group.ecs_security_group.id]
-    subnets         = data.aws_subnet.my_subnet_ids.ids
+    subnets         = data.aws_subnet.my_subnet_ids.id
 
     # Map container port 3000 to host port 3000
     # Change host_port to the port you want to map to on the host
