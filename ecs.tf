@@ -10,24 +10,17 @@ resource "aws_ecs_cluster" "ecs_cluster" {
 }
 
 # Define VPC and subnet IDs
-resource "aws_default_vpc" "default_vpc" {
+data "aws_vpc" "existing_vpc" {
+  id = "vpc-011f1b733d94aa911" # Change to your existing VPC ID
 }
-
-# Providing a reference to our default subnets
-resource "aws_default_subnet" "default_subnet_a" {
-  availability_zone = "ap-south-1a"
-}
-
-resource "aws_default_subnet" "default_subnet_b" {
-  availability_zone = "ap-south-1b"
-}
-
-resource "aws_default_subnet" "default_subnet_c" {
-  availability_zone = "ap-south-1c"
+# Define the existing subnets
+data "aws_subnet" "my_subnet_ids" {
+   vpc_id = data.aws_vpc.existing_vpc.id
+   cidr_block = "172.31.32.0/20"
 }
 resource "aws_security_group" "ecs_security_group" {
   name_prefix = "ecs-security-group"
-  vpc_id      = aws_default_vpc.default_vpc.id
+  vpc_id      = data.aws_vpc.existing_vpc.id
 
   ingress {
     from_port   = 0
@@ -93,8 +86,8 @@ resource "aws_ecs_service" "my_service" {
 
   network_configuration {
     security_groups = [aws_security_group.ecs_security_group.id]
-    subnets          = ["${aws_default_subnet.default_subnet_a.id}", "${aws_default_subnet.default_subnet_b.id}", "${aws_default_subnet.default_subnet_c.id}"]
-    assign_public_ip = true
+    subnets         = [data.aws_subnet.my_subnet_ids.id]
+
    
   }
 }
