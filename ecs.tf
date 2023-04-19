@@ -49,10 +49,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
   cpu                      = "2 vCPU"
   memory                   = "4096"
   execution_role_arn       = "arn:aws:iam::168933414344:role/ecsTaskExecutionRole"
-  runtime_platform {
-    operating_system_family = "Linux"
-    
-  }
+  
   
 
   container_definitions = <<DEFINITION
