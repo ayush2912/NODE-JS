@@ -18,6 +18,7 @@ data "aws_subnets" "my_subnet_ids" {
    id = [
           "subnet-0c44f87e69bedf89e",
           "subnet-09a8e0d6667281cd8"
+]
 
 }
 resource "aws_security_group" "ecs_security_group" {
