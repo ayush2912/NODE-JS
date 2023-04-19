@@ -71,39 +71,7 @@ resource "aws_ecs_task_definition" "my_first_task" {
   memory                   = "2048"
   execution_role_arn       = "arn:aws:iam::168933414344:role/ecsTaskExecutionRole"
   
-[
-  {
-    "name": "my-ecs-task",
-    "image": "${data.aws_ecr_repository.my_repository.repository_url}:latest",
-    
-    "portMappings": [
-      {
-        "containerPort": 3000,
-        "protocol": "tcp"
-      }
-    ],
-    "logConfiguration": {
-      "logDriver": "awslogs",
-      "options": {
-        "awslogs-group": "/ecs/my-ecs-task",
-        "awslogs-region": "ap-south-1",
-        "awslogs-stream-prefix": "my-container"
-      }
-    }
-  }
-]
-DEFINITION
-resource "aws_ecs_service" "my_service" {
-  name            = "my-service"
-  cluster         = aws_ecs_cluster.ecs_cluster.id
-  task_definition = aws_ecs_task_definition.ecs_task_definition.arn
-  launch_type     = "FARGATE"
-  desired_count   = 1
-
-  deployment_controller {
-    type = "ECS"
-  }
-  
+}
   resource "aws_iam_role" "ecsTaskExecutionRole" {
   name               = "ecsTaskExecutionRole"
   assume_role_policy = "${data.aws_iam_policy_document.assume_role_policy.json}"
@@ -122,6 +90,17 @@ resource "aws_ecs_service" "my_service" {
   role       = "${aws_iam_role.ecsTaskExecutionRole.name}"
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
+ 
+ resource "aws_ecs_service" "my_service" {
+  name            = "my-service"
+  cluster         = aws_ecs_cluster.ecs_cluster.id
+  task_definition = aws_ecs_task_definition.ecs_task_definition.arn
+  launch_type     = "FARGATE"
+  desired_count   = 1
+
+  deployment_controller {
+    type = "ECS"
+  }
 
   network_configuration {
     security_groups = [aws_security_group.ecs_security_group.id]
