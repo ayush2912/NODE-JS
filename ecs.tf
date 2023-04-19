@@ -15,7 +15,7 @@ data "aws_vpc" "existing_vpc" {
 }
 # Define the existing subnets
 data "aws_subnets" "my_subnet_ids" {
-   id = [
+   subnet_ids = [
           "subnet-0c44f87e69bedf89e",
           "subnet-09a8e0d6667281cd8"
 ]
