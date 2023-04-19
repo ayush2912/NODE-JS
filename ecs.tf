@@ -59,7 +59,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
     "portMappings": [
       {
         "containerPort": 3000,
-        "hostPort": 0
+        protocol      = "tcp"
       }
     ],
     "logConfiguration": {
