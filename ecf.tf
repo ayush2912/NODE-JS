@@ -32,7 +32,7 @@ name_prefix = "ayush-new"
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
-data "aws_ecr_repository" "my_repository" {
+resource "aws_ecr_repository" "my_repository" {
   name = "my-repository"
   
 }
