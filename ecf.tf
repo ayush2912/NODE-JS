@@ -55,6 +55,25 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
         "containerPort": 8080,
         "protocol": "tcp"
       }
+   ],
+    "environment": [
+        {
+          "name": "SOCKETIO_MONGO_ADAPTER_URI",
+          "value": "mongodb+srv://atlasAdmin:m9yrCL1hikEj8BUU@offsetmaxcluster0.6zak4.mongodb.net/offsetmaxsandbox"
+        },
+       {
+          "name": "SOCKETIO_MONGO_ADAPTER_DB" ,
+          "value": "offsetmaxsandbox"
+        },
+        {
+          "name": "SOCKETIO_MONGO_ADAPTER_COLLECTION",
+          "value": "SocketIoAdapterEvents"
+        },
+        {
+          "name": "GQL_API" ,
+          "value": "https://dev-orm.offsetmax.digital/"
+        }
+      
     ],
     "logConfiguration": {
       "logDriver": "awslogs",
