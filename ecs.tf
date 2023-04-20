@@ -56,7 +56,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
 [
   {
     "name": "my-container",
-    "image": "168933414344.dkr.ecr.ap-south-1.amazonaws.com/my-repository:d909cc3fe12c85ddd97f086b1ca0810b740f16ca",
+    "image": "${data.aws_ecr_repository.my_repository.repository_url}:latest",
     
     "portMappings": [
       {
