@@ -49,7 +49,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
 [
   {
     "name": "my-container",
-    "image": "168933414344.dkr.ecr.ap-south-1.amazonaws.com/my-repository:2a7609ae1c5794156f060d6a2d2bee58884e10c4",
+    "image": "168933414344.dkr.ecr.ap-south-1.amazonaws.com/my-repository:ea0f92e1482d0b81275ab3af12357569ac62eb77",
     "portMappings": [
       {
         "containerPort": 8080,
