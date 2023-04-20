@@ -1,0 +1,89 @@
+name: Build and push Docker image to ECR
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+     # - name: Build and push Docker image
+      #  env:
+        #  ECR_REGISTRY: 168933414344.dkr.ecr.ap-south-1.amazonaws.com
+         # IMAGE_NAME: my-repository
+        #run: |
+          #docker build -t $ECR_REGISTRY/$IMAGE_NAME:$GITHUB_SHA .
+         # docker push $ECR_REGISTRY/$IMAGE_NAME:$GITHUB_SHA
+       
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: latest
+
+      - name: Terraform Init
+        run: terraform init
+      - name: Terraform Plan
+        run: terraform plan
+      #- name: terraform destroy
+       # run: terraform destroy
+      - name: terraform apply
+        run: terraform apply -auto-approve
+
+        
+
+ 
+
+     
+
+  
+    
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       
+      
+    
+
+
+
+
+
+
+
+    
