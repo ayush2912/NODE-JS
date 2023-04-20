@@ -53,7 +53,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
 [
   {
     "name": "my-container",
-    "image": "${data.aws_ecr_image.service_image.repository_url}",
+    "image": "${data.aws_ecr_image.service_image.image_url}",
     "portMappings": [
       {
         "containerPort": 8080,
