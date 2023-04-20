@@ -34,6 +34,7 @@ name_prefix = "ayush-new"
 }
 data "aws_ecr_repository" "my_repository" {
   name = "my-repository"
+  image_tag       = "latest"
 }
 # Define the ECS task definition
 resource "aws_ecs_task_definition" "ecs_task_definition" {
