@@ -36,6 +36,10 @@ data "aws_ecr_repository" "my_repository" {
   name = "my-repository"
   
 }
+data "aws_ecr_image" "service_image" {
+  repository_name = "my-repository"
+  most_recent       = true
+}
 
 # Define the ECS task definition
 resource "aws_ecs_task_definition" "ecs_task_definition" {
@@ -49,7 +53,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
 [
   {
     "name": "my-container",
-    "image": "168933414344.dkr.ecr.ap-south-1.amazonaws.com/my-repository:109bf9d8a6eb8791a6a5489db528fcb7fa637d5e",
+    "image": "${data.aws_ecr_repository.my_repository.repository_url}:${data.external.current_image.result["image_tag"]}"",
     "portMappings": [
       {
         "containerPort": 8080,
