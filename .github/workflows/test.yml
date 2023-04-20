@@ -24,7 +24,7 @@ jobs:
           ECR_REGISTRY: 168933414344.dkr.ecr.ap-south-1.amazonaws.com
           IMAGE_NAME: my-personal-test
         run: |
-          docker build  $ECR_REGISTRY/$IMAGE_NAME .
+          docker build $ECR_REGISTRY/$IMAGE_NAME .
           docker push $ECR_REGISTRY/$IMAGE_NAME
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
