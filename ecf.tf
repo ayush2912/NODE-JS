@@ -20,7 +20,7 @@ name_prefix = "ayush-new"
  vpc_id      = data.aws_vpc.existing_vpc.id
   ingress {
     from_port   = 0
-    to_port     = 0
+    to_port     = 65535
     protocol    = "tcp"
     security_groups = ["sg-04c53a4831e9f6ff8"]
   }
