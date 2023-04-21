@@ -22,7 +22,7 @@ name_prefix = "ayush-new"
     from_port   = 0
     to_port     = 0
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    security_groups = ["sg-04c53a4831e9f6ff8"]
   }
 #some
  egress {
@@ -105,5 +105,10 @@ resource "aws_ecs_service" "my_service" {
     security_groups = [aws_security_group.ecs_security_group.id]
     subnets         = [data.aws_subnet.my_subnet_ids.id]
     assign_public_ip = true
+  }
+load_balancer {
+    target_group_arn = "arn:aws:elasticloadbalancing:ap-south-1:168933414344:targetgroup/my-ecs-tg/0aabec2861010b51"
+    container_name   = "my-container"
+    container_port   = 8080
   }
 }
